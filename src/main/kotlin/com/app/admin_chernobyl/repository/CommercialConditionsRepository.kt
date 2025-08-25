@@ -21,4 +21,6 @@ interface CommercialConditionsRepository {
 
     fun inactivateSnapshot(versionId: UUID): Int
 
+    fun findAllSnapshotsBySellerId(sellerId: UUID): List<CommercialConditionsSnapshot>
+
 }

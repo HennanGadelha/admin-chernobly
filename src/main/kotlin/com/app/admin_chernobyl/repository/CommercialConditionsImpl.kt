@@ -156,5 +156,22 @@ class CommercialConditionsImpl(
         )
     }
 
+    override fun findAllSnapshotsBySellerId(sellerId: UUID): List<CommercialConditionsSnapshot> {
+        val sql = """
+        SELECT version_id,
+               seller_id,
+               status,
+               commercial_conditions::text AS commercial_conditions,
+               created_at,
+               created_by,
+               change_reason,
+               previous_version_id::text AS previous_version_id
+          FROM commercial_conditions_snapshot
+         WHERE seller_id = ?
+         ORDER BY created_at DESC
+    """.trimIndent()
+
+        return jdbcTemplate.query(sql, snapshotMapper, sellerId)
+    }
 
 }

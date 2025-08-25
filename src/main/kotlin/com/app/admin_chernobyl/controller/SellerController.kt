@@ -1,6 +1,7 @@
 package com.app.admin_chernobyl.controller
 
 import com.app.admin_chernobyl.controller.request.SellerRequest
+import com.app.admin_chernobyl.core.model.commercialConditions.CommercialConditionsSnapshot
 import com.app.admin_chernobyl.seller.Seller
 import com.app.admin_chernobyl.service.SellerService
 import org.springframework.http.HttpStatus
@@ -38,6 +39,14 @@ class SellerController(
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(@PathVariable id: UUID) {
         sellerService.delete(id)
+    }
+
+    @GetMapping("/{sellerId}/commercial-conditions/snapshots")
+    fun listSnapshotsBySeller(
+        @PathVariable sellerId: UUID
+    ): ResponseEntity<List<CommercialConditionsSnapshot>> {
+        val snapshots = sellerService.findAllSnapshotsBySellerId(sellerId)
+        return ResponseEntity.ok(snapshots)
     }
 
 }
